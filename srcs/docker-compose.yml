@@ -10,6 +10,16 @@ services:
       - kshanti
     ports:
       - "443:443"
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    image: wordpress
+    restart: always
+    networks:
+    - kshanti
+    env_file: .env
+    volumes:
+      - my-volume:/var/www/html
 
 
 networks:
