@@ -1,5 +1,7 @@
 FROM debian:buster
 
+RUN sleep 20
+
 RUN apt-get update && apt-get -y upgrade && apt-get -y install nginx openssl
 
 RUN openssl req -newkey rsa:4096 \

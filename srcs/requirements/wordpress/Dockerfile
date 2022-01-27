@@ -1,14 +1,11 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get -y upgrade && apt-get install php-fpm wget php-mysql
+RUN apt-get update && apt-get -y upgrade && apt-get install -y php-fpm wget php-mysql php-mbstring php-gd php-xml wget
 
-COPY ./www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY www.conf ./
+RUN mv www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
-RUN mkdir -p /run/php
-
-RUN touch /run/php/php7.3-fpm.pid
-
-RUN chmod -R 755 /var/www/*
+COPY wp.sh ./
 
 RUN chmod +x wp.sh
 
@@ -16,5 +13,5 @@ ENTRYPOINT [ "bash", "wp.sh" ]
 
 EXPOSE 9000
 
-CMD /usr/sbin/php-fpm7.4 -F -R
+CMD /usr/sbin/php-fpm7.3 -F -R
 
