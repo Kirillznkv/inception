@@ -5,8 +5,7 @@ chown -R www-data:www-data /var/www/*
 chmod -R 755 /var/www/*
 if [ -e /var/www/html/wordpress/wp-config.php ]
 then
-	touch test.txt
-	rm test.txt
+	touch /var/www/html/test.txt
 else
    wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
    chmod +x wp-cli.phar
@@ -15,18 +14,8 @@ else
    wp core download --allow-root
    mv ./wp-config.php /var/www/html/
    echo "Configuring Wordpress parameters"
-   wp config create --allow-root --dbname=wordpress --dbuser=kshanti --dbpass=qwerty --dbhost=mariadb --dbprefix=wp_
-#  								--dbname=${DB_NAME} \
-#  	                            --dbuser=${DB_USER} \
-#                                --dbpass=${DB_PASS} \
-#                                --dbhost=${DB_HOST} \
-#                                --dbprefix=${DB_PREFIX}
-   wp core install --allow-root	--allow-root --url=localhost --title="My Title" --admin_user=kshanti --admin_password=qwerty --admin_email=Zenich99@gmail.com
-   								#--url=localhost/wordpress \
-                                # --title=${WP_TITLE} \
-                                # --admin_user=${WP_ADMIN_USER} \
-                                # --admin_password=${WP_ADMIN_PASSWORD} \
-                                # --admin_email=${WP_MAIL}
+   wp config create --allow-root --path=/var/www/html/ --dbname=wordpress --dbuser=kshanti --dbpass=qwerty --dbhost=mariadb --dbprefix=wp_ --skip-check
+   wp core install --allow-root --path=/var/www/html/ --url=wordpress --title="My Title" --admin_user=kshanti --admin_password=qwerty --admin_email=Zenich99@gmail.com
  fi                              
  exec "$@"
 
