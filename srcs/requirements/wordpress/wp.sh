@@ -3,7 +3,7 @@ mkdir -p /run/php/
 touch /run/php/php7.3-fpm.pid
 chown -R www-data:www-data /var/www/*
 chmod -R 755 /var/www/*
-if [ -e /var/www/html/wordpress/wp-config.php ]
+if [ -e /var/www/html/wp-config.php ]
 then
 	touch /var/www/html/test.txt
 else
@@ -14,8 +14,9 @@ else
    wp core download --allow-root
    mv ./wp-config.php /var/www/html/
    echo "Configuring Wordpress parameters"
-   wp config create --allow-root --path=/var/www/html/ --dbname=wordpress --dbuser=kshanti --dbpass=qwerty --dbhost=mariadb --dbprefix=wp_ --skip-check
-   wp core install --allow-root --path=/var/www/html/ --url=wordpress --title="My Title" --admin_user=kshanti --admin_password=qwerty --admin_email=Zenich99@gmail.com
+   wp config create --allow-root --path=/var/www/html/ --dbname=${DB_NAME} --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbhost=${DB_HOST} --dbprefix=${DB_PREFIX} --skip-check
+   wp core install --allow-root --path=/var/www/html/ --url=${DB_URL} --title="My Title" --admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_MAIL}
+   wp user create --allow-root ${WP_NEW_USER} ${WP_NEW_USE_MAIL} --user_pass=${WP_NEW_USE_PASSWORD}
  fi                              
  exec "$@"
 
